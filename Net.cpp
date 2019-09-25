@@ -1,19 +1,12 @@
-//#include <bits/stdc++.h>
 #include <vector>
 #include <iostream>
-#include <cstdlib>
-#include <cassert>
 #include <cmath>
-using namespace std;
 
-struct Connection
-{
-	double weight,deltaWeight;
-};
+#include "Net.h"
+#include "Layer.h"
+#include "Neuron.h"
 
-typedef vector<Neuron> Layer; 
-
-Net::Net(const vector<unsigned> &topology)
+Net::Net(const std::vector<unsigned> &topology)
 {
 	unsigned numLayers= topology.size();
 	for(unsigned layerNum=0;layerNum<numLayers;++layerNum) {
@@ -22,12 +15,12 @@ Net::Net(const vector<unsigned> &topology)
 		//fill this new layer with neurons, and also one bias neuron
 		for(unsigned neuronNum=0;neuronNum<=topology[layerNum];++neuronNum) {
 			m_layers.back().push_back(Neuron(numOutputs));
-			cout<<"Added the "<<neuronNum<<"th neuron for the "<<layerNum<<"th layer"<<endl;
+			std::cout<<"Added the "<<neuronNum<<"th neuron for the "<<layerNum<<"th layer"<<std::endl;
 		}
 	}
 }
 
-void Net::feedForward(const vector<unsigned>& inputVals) 
+void Net::feedForward(const std::vector<unsigned>& inputVals) 
 {
 	assert(inputVals.size()==m_layers[0].size()-1);
 	
@@ -92,25 +85,3 @@ void Net::getResults()
 {
 
 }
-
-
-int main()
-{
-	// {3,2,1}---> 3 input Neurons, 2 hidden layer Neurons, 1 output Neuron
-	vector<unsigned> topology; 
-	topology.push_back(3);
-	topology.push_back(2);
-	topology.push_back(1);
-	Net myNet(topology);
-
-	vector<double> inputVals;
-	myNet.feedForward(inputVals);
-
-	vector<double> targetVals;
-	myNet.backProp(targetVals);
-
-	vector<double> resultVals;
-	myNet.getResults(resultVals);
-
-}
-

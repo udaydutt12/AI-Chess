@@ -1,3 +1,9 @@
 #include <vector>
-Class Neuron;
+#include "Neuron.h"
+
+#ifndef LAYER_H
+#define LAYER_H
+
 typedef std::vector<Neuron> Layer; 
+
+#endif

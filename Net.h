@@ -1,4 +1,9 @@
 #include <vector>
+#include "Layer.h"
+
+#ifndef NET_H
+#define NET_H
+
 class Net
 {
 	public:
@@ -12,3 +17,5 @@ class Net
 		double m_recentAverageError;
 		double m_recentAverageSmoothingFactor;
 };
+
+#endif
