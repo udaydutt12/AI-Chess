@@ -1,5 +1,5 @@
 #include <vector>
-//#include "Layer.h"
+
 #ifndef NET_H
 #define NET_H
 

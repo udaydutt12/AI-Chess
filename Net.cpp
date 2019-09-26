@@ -1,10 +1,10 @@
 #include <vector>
 #include <iostream>
 #include <cmath>
-
+#include <cassert>
 #include "Net.h"
 #include "Layer.h"
-#include "Neuron.h"
+#include "Neuron.h"'
 
 Net::Net(const std::vector<unsigned> &topology)
 {
@@ -20,7 +20,7 @@ Net::Net(const std::vector<unsigned> &topology)
 	}
 }
 
-void Net::feedForward(const std::vector<unsigned>& inputVals) 
+void Net::feedForward(const std::vector<double>& inputVals) 
 {
 	assert(inputVals.size()==m_layers[0].size()-1);
 	
@@ -52,7 +52,7 @@ void Net::backProp(const std::vector<double> &targetVals)
 	
 	// Implement a recent average
 	m_recentAverageError = 
-		(m_recentAverageError * m_recentAverageSmoothingFactor
+		m_recentAverageError * m_recentAverageSmoothingFactor
 		 / (m_recentAverageSmoothingFactor+1.0);
 
 	//Calculate output layer gradients
@@ -72,7 +72,7 @@ void Net::backProp(const std::vector<double> &targetVals)
 	//FOr all layers from outputs to first hidden layer, 
 	//update connection weights
 	
-	for (unsigned layerNum = m_layers.size()-1;l>0;--l) {
+	for (unsigned layerNum = m_layers.size()-1;layerNum>0;--layerNum) {
 		Layer &layer = m_layers[layerNum];
 		Layer &prevLayer= m_layers[layerNum-1];
 		for (unsigned n = 0; n<layer.size();++n) {
@@ -81,7 +81,7 @@ void Net::backProp(const std::vector<double> &targetVals)
 	}
 }
 
-void Net::getResults(vector<double> &resultVals) const
+void Net::getResults(std::vector<double> &resultVals) const
 {
 	resultVals.clear();
 	for(unsigned n = 0; n<m_layers.back().size();++n) {

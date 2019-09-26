@@ -1,7 +1,6 @@
 #include <vector>
 //#include "Layer.h"
 //#include "Connection.h"
-
 #ifndef NEURON_H
 #define NEURON_H
 
@@ -14,7 +13,7 @@ class Neuron
 	public:
 		Neuron(unsigned numOutputs,unsigned myIndex);
 		void setOutputVal(double val);
-		double getOutputVal(void) {return m_outputVal;}
+		double getOutputVal(void) const;
 		void feedForward(const Layer &prevLayer);
 		void calcOutputGradients(double targetVal);
 		void calcHiddenGradients(const Layer &nextLayer);

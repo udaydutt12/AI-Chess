@@ -1,7 +1,7 @@
 #include "Neuron.h"
 #include "Layer.h"
 #include "Connection.h"
-//class Layer;
+
 #include <cmath>
 #include <vector>
 
@@ -57,7 +57,7 @@ void Neuron::feedForward(const Layer &prevLayer)
 	//Include the biaas node from the previous layer.
 	for (unsigned n=0; n<prevLayer.size();++n) {
 		sum+= prevLayer[n].getOutputVal() *
-			prevLayer[n].n_outputWeights[m_myIndex].weight;
+			prevLayer[n].m_outputWeights[m_myIndex].weight;
 	}
 
 	m_outputVal= Neuron::transferFunction(sum);
@@ -90,7 +90,7 @@ void Neuron::setOutputVal(double val)
     m_outputVal = val;
 }
 
-double Neuron::getOutputVal() 
+double Neuron::getOutputVal() const
 {
     return m_outputVal;
 }
