@@ -1,8 +1,22 @@
 #include "Neuron.h"
 #include "Layer.h"
+#include "Connection.h"
+//class Layer;
 #include <cmath>
+#include <vector>
 
+double Neuron::eta = 0.15;
+double Neuron::alpha = 0.5;
 
+Neuron::Neuron(unsigned numOutputs, unsigned myIndex)
+{
+	for (unsigned c=0; c<numOutputs;++c) {
+		m_outputWeights.push_back(Connection());
+		m_outputWeights.back().weight = randomWeight();
+	}
+
+	m_myIndex = myIndex;
+}
 
 void Neuron::updateInputWeights(Layer &prevLayer) 
 {
@@ -15,14 +29,14 @@ void Neuron::updateInputWeights(Layer &prevLayer)
 			//Individual input, magnified by the gradient and train rate:
 			eta
 			* neuron.getOutputVal()
-			* m_gradient
+			* neuron.m_gradient
 			//Also add momentum = a fraction of the previous delta weight
 			+alpha
 			* oldDeltaWeight;
 		neuron.m_outputWeights[m_myIndex].deltaWeight = newDeltaWeight;
 		neuron.m_outputWeights[m_myIndex].weight += newDeltaWeight;
 	}
-}	
+}
 
 double Neuron::sumDOW(const Layer &nextLayer) const
 {
@@ -31,19 +45,11 @@ double Neuron::sumDOW(const Layer &nextLayer) const
 	for (unsigned n=0;n<nextLayer.size()-1;++n) {
 		sum+=m_outputWeights[n].weight * nextLayer[n].m_gradient;
 	}
+	return sum;
 }
 
-Neuron::Neuron(unsigned numOutputs)
-{
-	for (unsigned c=0; c<numOutputs;++c) {
-		m_outputWeights.push_back(Connection());
-		m_outputWeights.back().weight = randomWeight();
-	}
 
-	m_myIndex = myIndex;
-}
-
-Neuron::feedForward(const Layer &prevLayer)
+void Neuron::feedForward(const Layer &prevLayer)
 {
 	double sum =0;
 
@@ -62,7 +68,7 @@ double Neuron::transferFunction(double x)
 	return tanh(x);
 }
 
-double Neuron::transferFunctionDerivate(double x)
+double Neuron::transferFunctionDerivative(double x)
 {
 	return 1.0-x*x;
 }
@@ -76,7 +82,7 @@ void Neuron::calcOutputGradients(double targetVal)
 void Neuron::calcHiddenGradients(const Layer &nextLayer) 
 {
 	double dow = sumDOW(nextLayer);
-	mgradient = dow * Neuron::transferFunctionDerivative(m_outputVal);
+	m_gradient = dow * Neuron::transferFunctionDerivative(m_outputVal);
 }
 
 void Neuron::setOutputVal(double val) 

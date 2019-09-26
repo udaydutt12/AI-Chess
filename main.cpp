@@ -9,7 +9,7 @@
 int main()
 {
 	// {3,2,1}---> 3 input Neurons, 2 hidden layer Neurons, 1 output Neuron
-	std::vector<unsigned> topology; 
+	std::vector<unsigned> topology;
 	topology.push_back(3);
 	topology.push_back(2);
 	topology.push_back(1);

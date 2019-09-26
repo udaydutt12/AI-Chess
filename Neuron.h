@@ -1,9 +1,13 @@
 #include <vector>
-#include "Layer.h"
-#include "Connection.h"
+//#include "Layer.h"
+//#include "Connection.h"
 
 #ifndef NEURON_H
 #define NEURON_H
+
+class Neuron;
+struct Connection;
+typedef std::vector<Neuron> Layer;
 
 class Neuron
 {
@@ -25,6 +29,7 @@ class Neuron
 		static double eta;  //[0.0..1.0] overall net training rate
 		static double alpha; //[0.0..n] multiplier of last weight (momentum)
 		unsigned m_myIndex;
+		double m_gradient;
 };
 
 #endif

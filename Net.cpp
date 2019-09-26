@@ -14,7 +14,7 @@ Net::Net(const std::vector<unsigned> &topology)
 		unsigned numOutputs = (layerNum == topology.size() - 1) ? 0 : topology[layerNum+1];
 		//fill this new layer with neurons, and also one bias neuron
 		for(unsigned neuronNum=0;neuronNum<=topology[layerNum];++neuronNum) {
-			m_layers.back().push_back(Neuron(numOutputs));
+			m_layers.back().push_back(Neuron(numOutputs,neuronNum));
 			std::cout<<"Added the "<<neuronNum<<"th neuron for the "<<layerNum<<"th layer"<<std::endl;
 		}
 	}
@@ -39,12 +39,12 @@ void Net::feedForward(const std::vector<unsigned>& inputVals)
 	}
 }
 
-void Net::backProp()
+void Net::backProp(const std::vector<double> &targetVals)
 {
 	//Calculate the overall error (RMS of output neuron errors)
 	Layer &outputLayer=m_layers.back();
 	m_error = 0.0;
-	for (unsigned n=0;n<outputLater.size()-1;++n) {
+	for (unsigned n=0;n<outputLayer.size()-1;++n) {
 		double delta = targetVals[n] - outputLayer[n].getOutputVal();
 		m_error += delta*delta;
 	}
@@ -58,11 +58,11 @@ void Net::backProp()
 	//Calculate output layer gradients
 	
 	for (unsigned n=0;n<outputLayer.size()-1;++n) {
-		outputLayer[n].calcOutputGradients(targetVales[n]);
+		outputLayer[n].calcOutputGradients(targetVals[n]);
 	}
 
 	//Calculate gradients on hidden layers
-	for (unsigned layerNum = m_layers.size()-2;--layerNum) {
+	for (unsigned layerNum = m_layers.size()-2;;--layerNum) {
 		Layer &hiddenLayer = m_layers[layerNum];
 		Layer &nextLayer = m_layers[layerNum+1];
 		for (unsigned n = 0; n<hiddenLayer.size();++n) {
@@ -81,7 +81,10 @@ void Net::backProp()
 	}
 }
 
-void Net::getResults()
+void Net::getResults(vector<double> &resultVals) const
 {
-
+	resultVals.clear();
+	for(unsigned n = 0; n<m_layers.back().size();++n) {
+		resultVals.push_back(m_layers.back()[n].getOutputVal());
+	}
 }

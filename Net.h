@@ -1,8 +1,10 @@
 #include <vector>
-#include "Layer.h"
-
+//#include "Layer.h"
 #ifndef NET_H
 #define NET_H
+
+class Neuron;
+typedef std::vector<Neuron> Layer;
 
 class Net
 {
