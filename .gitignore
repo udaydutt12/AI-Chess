@@ -1,5 +1,5 @@
 pgn
 converter.c
 *.pgn
-vscode/
+.vscode/
 pgn2fen
