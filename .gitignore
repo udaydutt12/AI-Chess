@@ -1,1 +1,5 @@
 pgn
+converter.c
+*.pgn
+vscode/
+pgn2fen

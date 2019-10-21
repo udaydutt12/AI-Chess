@@ -1,5 +1,10 @@
 #include <vector>
-#include "Net.h"
+#include <utility>
+//#include "Net.h"
+//#include "State.h"
+
+
+
 //#include <bits/stdc++.h>
 //#include <iostream>
 //#include <cstdlib>
@@ -10,7 +15,47 @@
 #include <PGNGameCollection.h> 
 #include <iostream> 
 #include <fstream> 
+#include "chess.h"
 
+using namespace std;
+
+void create_training_data()
+{
+	try
+	{
+        pair < vector< vector<vector<vector<int> > > >, vector < string > > data;
+		vector<string>values {"1-0","0-1","1/2-1/2"};
+		std::ifstream pgnfile("./ficsgamesdb2016.pgn");
+		pgn::GameCollection games;
+		pgnfile >> games;
+		for(pgn::GameCollection::iterator it=games.begin();it!=games.end();++it) {
+			chess current_game;
+			std::cout<<"moves: "<<it->moves()<<endl;
+			int i=1;
+			for(pgn::MoveList::iterator it2=it->moves().begin();it2!=it->moves().end();++it2) {
+				data.first.push_back(current_game.serializemove());
+				data.second.push_back(it->result());
+				data.first.push_back(current_game.serializemove());
+				data.second.push_back(it->result());
+				++i;
+			}
+			cout<<"it->result()   "<<it->result()<<endl;
+			std::cout<<"----------end of it---------------"<<endl;
+			
+		}
+	}
+	catch (std::exception &e)
+	{
+		std::cerr << "exception: " << e.what() << std::endl;
+	}
+}
+
+int main() {
+    create_training_data();
+}
+
+
+/*
 int main(int argc, char *argv[])
 {
 	try
@@ -58,3 +103,5 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
+
+*/

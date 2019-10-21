@@ -59,6 +59,11 @@
         "utility": "cpp",
         "vector": "cpp",
         "*.tcc": "cpp",
-        "hashtable": "cpp"
+        "hashtable": "cpp",
+        "__tree": "cpp",
+        "fstream": "cpp",
+        "map": "cpp",
+        "set": "cpp",
+        "cinttypes": "cpp"
     }
 }
